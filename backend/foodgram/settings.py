@@ -1,8 +1,4 @@
 import os
-from distutils import util
-from pathlib import Path
-
-from dotenv import load_dotenv
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
