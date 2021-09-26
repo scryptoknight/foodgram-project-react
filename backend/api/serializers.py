@@ -6,6 +6,7 @@ from api.models import (FavorRecipe, Ingredient, Recipe, RecipeComponent,
 from users.serializers import UserSerializer
 
 
+MIN_COOKING_TIME = 1
 MAX_COOKING_TIME = 32766
 
 
@@ -58,11 +59,11 @@ class IngredientWriteSerializer(serializers.ModelSerializer):
                     'ingredients': f'ингредиент с id {attrs["id"]} не найден'
                 },
             )
-        if int(attrs['amount']) < 1 or int(attrs['amount']) > MAX_COOKING_TIME:
+        if int(attrs['amount']) < MIN_COOKING_TIME or int(attrs['amount']) > MAX_COOKING_TIME:
             raise serializers.ValidationError(
                 {
                     'ingredients':
-                        'Количество ингредиента не может быть меньше 1 '
+                        f'Количество ингредиента не может быть меньше {MIN_COOKING_TIME} '
                         f'и больше {MAX_COOKING_TIME}'
                 }
             )
@@ -117,11 +118,11 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         cooking_time = self.initial_data.get('cooking_time')
         if (cooking_time is None or
-                int(cooking_time) < 1 or int(cooking_time) > MAX_COOKING_TIME):
+                int(cooking_time) < MIN_COOKING_TIME or int(cooking_time) > MAX_COOKING_TIME):
             raise serializers.ValidationError(
                 {
                     'cooking_time':
-                        'Время приготовления не может быть меньше 1 '
+                        f'Время приготовления не может быть меньше {MIN_COOKING_TIME} '
                         f'и больше {MAX_COOKING_TIME}'
                 }
             )
