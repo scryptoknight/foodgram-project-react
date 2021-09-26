@@ -1,9 +1,12 @@
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 
-from api.models import (FavorRecipes, Ingredient, Recipe, RecipeComponent,
+from api.models import (FavorRecipe, Ingredient, Recipe, RecipeComponent,
                         ShoppingList, Tag)
 from users.serializers import UserSerializer
+
+
+MAX_COOKING_TIME = 32766
 
 
 class IngredientSerializer(serializers.ModelSerializer):
@@ -55,12 +58,12 @@ class IngredientWriteSerializer(serializers.ModelSerializer):
                     'ingredients': f'ингредиент с id {attrs["id"]} не найден'
                 },
             )
-        if int(attrs['amount']) < 1 or int(attrs['amount']) > 32766:
+        if int(attrs['amount']) < 1 or int(attrs['amount']) > MAX_COOKING_TIME:
             raise serializers.ValidationError(
                 {
                     'ingredients':
                         'Количество ингредиента не может быть меньше 1 '
-                        'и больше 32766'
+                        f'и больше {MAX_COOKING_TIME}'
                 }
             )
         return attrs
@@ -114,15 +117,20 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         cooking_time = self.initial_data.get('cooking_time')
         if (cooking_time is None or
-                int(cooking_time) < 1 or int(cooking_time) > 32766):
+                int(cooking_time) < 1 or int(cooking_time) > MAX_COOKING_TIME):
             raise serializers.ValidationError(
                 {
                     'cooking_time':
                         'Время приготовления не может быть меньше 1 '
-                        'и больше 32766'
+                        f'и больше {MAX_COOKING_TIME}'
                 }
             )
         ingredients = self.initial_data.get('ingredients')
+        if len(set(ingredients)) != len(ingredients):
+            raise serializers.ValidationError(
+                {'ingredients':
+                    'Ингридиенты не должны повторятся'}
+            )
         if not ingredients:
             raise serializers.ValidationError(
                 {'ingredients':
@@ -228,7 +236,7 @@ class FavorSerializer(serializers.ModelSerializer):
                     'recipes': f'Рецепт с id {attrs["recipes"]} не найден'
                 }
             )
-        follow_exists = FavorRecipes.objects.filter(
+        follow_exists = FavorRecipe.objects.filter(
             author=attrs['author'],
             recipes=attrs['recipes']
         ).exists()
@@ -239,5 +247,5 @@ class FavorSerializer(serializers.ModelSerializer):
         return attrs
 
     class Meta:
-        model = FavorRecipes
+        model = FavorRecipe
         fields = '__all__'

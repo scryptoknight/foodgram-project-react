@@ -1,9 +1,12 @@
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = 'django-insecure-=@tkvm)y=((=nd6m32z3zj&@qz#r7!_7cu=1hv%p$s03rty!-1'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 PAGE_SIZE = 6
 

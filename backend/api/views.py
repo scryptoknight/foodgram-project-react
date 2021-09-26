@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.filters import IngredientFilter, RecipeFilter
-from api.models import (FavorRecipes, Ingredient, Recipe, RecipeComponent,
+from api.models import (FavorRecipe, Ingredient, Recipe, RecipeComponent,
                         ShoppingList, Tag)
 from api.permissions import IsOwnerOrReadOnly
 from api.serializers import (FavorSerializer, IngredientSerializer,
@@ -28,7 +28,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         user = self.request.user
         queryset = cache.get('recipes_qs')
         if not queryset:
-            queryset = super(RecipeViewSet, self).get_queryset()
+            queryset = super().get_queryset()
             cache.set('recipes_qs', queryset)
         if user.is_anonymous or user is None:
             return queryset
@@ -38,16 +38,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
             cache.set('recipes_user_%s' % user.id, user_qs)
         return user_qs
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
     def perform_create(self, serializer):
-        return serializer.save(author=self.request.user)
+        serializer.save(author=self.request.user)
 
     def get_serializer_class(self):
         if self.request.method in ['GET', ]:
@@ -111,7 +103,7 @@ class CommonViewSet(APIView):
 class FavoriteViewSet(CommonViewSet):
     obj = Recipe
     serializer_class = FavorSerializer
-    del_obj = FavorRecipes
+    del_obj = FavorRecipe
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):

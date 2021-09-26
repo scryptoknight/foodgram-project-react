@@ -17,7 +17,7 @@ class RecipeQuerySet(models.QuerySet):
                 )
             )
         return self.annotate(
-            is_favorited=Exists(FavorRecipes.objects.filter(
+            is_favorited=Exists(FavorRecipe.objects.filter(
                 author=user, recipes_id=OuterRef('pk')
             )),
             is_in_shopping_cart=Exists(ShoppingList.objects.filter(
@@ -87,7 +87,6 @@ class Recipe(models.Model):
         Ingredient,
         verbose_name='Ингредиенты',
         through='RecipeComponent',
-        blank=False
     )
     text = models.TextField(
         verbose_name='Текст',
@@ -134,13 +133,19 @@ class ShoppingList(models.Model):
     class Meta:
         verbose_name = 'Рецепт в корзине'
         verbose_name_plural = 'Рецепты в корзине'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['author', 'recipes'],
+                name='shopping_author_recipes_unique'
+            )
+        ]
         ordering = ('-pk', )
 
     def __str__(self):
         return f'{self.recipes.name} в корзине у {self.author.username}'
 
 
-class FavorRecipes(models.Model):
+class FavorRecipe(models.Model):
     recipes = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
@@ -158,6 +163,12 @@ class FavorRecipes(models.Model):
     class Meta:
         verbose_name = 'Избранное'
         verbose_name_plural = 'Избранное'
+        constraints = [
+            models.UniqueConstraint(
+                name='favorite_author_unique_recipes',
+                fields=['author', 'recipes']
+            )
+        ]
         ordering = ('-pk', )
 
     def __str__(self):
@@ -198,6 +209,12 @@ class RecipeComponent(models.Model):
     class Meta:
         verbose_name = 'Ингредиент в рецепте'
         verbose_name_plural = 'Ингредиенты в рецепте'
+        constraints = [
+            models.UniqueConstraint(
+                name='recipe_unique_component',
+                fields=['ingredient', 'recipe']
+            )
+        ]
         ordering = ('-pk', )
 
     def __str__(self):

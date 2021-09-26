@@ -3,7 +3,7 @@ from django.db.models import Count
 from django.urls import reverse
 from django.utils.html import mark_safe
 
-from api.models import FavorRecipes, Ingredient, Recipe, ShoppingList, Tag
+from api.models import FavorRecipe, Ingredient, Recipe, ShoppingList, Tag
 
 
 class RecipeAdmin(admin.ModelAdmin):
@@ -61,5 +61,5 @@ class ShoppingCartAdmin(admin.ModelAdmin):
 admin.site.register(Recipe, RecipeAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Ingredient, IngridientAdmin)
-admin.site.register(FavorRecipes, FavorAdmin)
+admin.site.register(FavorRecipe, FavorAdmin)
 admin.site.register(ShoppingList, ShoppingCartAdmin)
