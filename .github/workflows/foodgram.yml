@@ -56,6 +56,19 @@ jobs:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
     steps:
+      - uses: actions/checkout@v2
+
+      - name: Create tar archive with Nginx and docker-compose files
+        run: tar -cvf deploy.tar infra/ backend/ docs/
+      - name: copy files with ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          source: "deploy.tar"
+          target: "./"
       - name: executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
         with:
@@ -64,6 +77,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
+            tar -xvf deploy.tar
             cd infra/
             docker-compose down
             docker pull ${{secrets.DOCKER_USERNAME }}/foodgram_project:latest
