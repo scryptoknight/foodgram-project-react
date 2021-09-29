@@ -18,6 +18,24 @@ services:
     volumes:
       - ../frontend/:/app/result_build/
 
+  nginx:
+    image: nginx:1.19.3
+    ports:
+      - 80:80
+    volumes:
+      - static_value:/static/
+      - media_value:/media/
+      - ./nginx.conf:/etc/nginx/templates/default.conf.template
+      - ../frontend/build:/usr/share/nginx/html/
+      - ../docs/redoc.html:/usr/share/nginx/html/api/docs/redoc.html
+      - ../docs/openapi-schema.yml:/usr/share/nginx/html/api/docs/openapi-schema.yml
+    restart: always
+    depends_on:
+      - back
+      - frontend
+    env_file:
+      - ./.env
+
   back:
     image: sonoffjord/foodgram_project:latest
     restart: always
@@ -26,21 +44,9 @@ services:
       - media_value:/code/media
     depends_on:
       - db
+      - redis
     env_file:
       - ./.env
-  
-  nginx: 
-    image: nginx:1.19.3 
-    restart: always 
-    volumes: 
-      - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
-      - result_build:/usr/share/nginx/html/  
-      - static_value:/static 
-      - media_value:/media
-      - ./docs:/usr/share/nginx/html/api/docs 
-    ports: 
-      - 80:80
-    depends_on: 
-      - back
-      - frontend
-      
+
+  redis:
+    image: redis:6.2.5
