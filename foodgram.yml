@@ -90,7 +90,7 @@ jobs:
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
             echo HOSTS_LIST=${{ secrets.HOSTS_LIST }} >> .env
             echo DEBUG_MODE=${{ secrets.DEBUG_MODE }} >> .env
-            sudo docker-compose up -d
+            docker-compose up -d
       - name: send telegram message
         uses: appleboy/telegram-action@master
         if: ${{ always() }}

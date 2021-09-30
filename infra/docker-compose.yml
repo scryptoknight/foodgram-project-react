@@ -18,6 +18,21 @@ services:
     volumes:
       - ../frontend/:/app/result_build/
 
+  back:
+    image: sonoffjord/foodgram_project:latest
+    restart: always
+    volumes:
+      - static_value:/code/static
+      - media_value:/code/media
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - ./.env
+
+  redis:
+    image: redis:6.2.5
+  
   nginx:
     image: nginx:1.19.3
     ports:
@@ -35,18 +50,3 @@ services:
       - frontend
     env_file:
       - ./.env
-
-  back:
-    image: sonoffjord/foodgram_project:latest
-    restart: always
-    volumes:
-      - static_value:/code/static
-      - media_value:/code/media
-    depends_on:
-      - db
-      - redis
-    env_file:
-      - ./.env
-
-  redis:
-    image: redis:6.2.5
