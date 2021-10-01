@@ -7,11 +7,11 @@ volumes:
 
 services:
   db:
-    image: postgres:12.4
+    image: postgres:13.3
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - .env
+      - ./.env
 
   backend:
     image: sonoffjord/foodgram_project:latest
@@ -22,7 +22,7 @@ services:
       - static_files:/code/static/
       - media_files:/code/media/
     env_file:
-      - .env
+      - ./.env
 
   frontend:
     image: sonoffjord/foodgram_frontend:v1
