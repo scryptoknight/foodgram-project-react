@@ -6,14 +6,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-SECRET_KEY = 'django-insecure-=@tkvm)y=((=nd6m32z3zj&@qz#r7!_7cu=1hv%p$s03rty!-1'
-
+SECRET_KEY = os.getenv('SECRET_KEY')
 PAGE_SIZE = 6
-
 DEBUG = True
-
-ALLOWED_HOSTS = ['178.154.226.189', '127.0.0.1', 'web:8000', 'backend']
+ALLOWED_HOSTS = ['178.154.226.189', '127.0.0.1', 'backend']
 
 
 # Application definition
@@ -67,12 +63,12 @@ WSGI_APPLICATION = 'foodgram.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgresql',
-        'USER': os.environ.get('POSTGRES_USER'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT'),
+        'ENGINE': os.getenv('DB_ENGINE'),
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 
