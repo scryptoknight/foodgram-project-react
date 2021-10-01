@@ -1,9 +1,8 @@
 version: '3.3'
-
 volumes:
   postgres_data:
-  static_files:
-  media_files:
+  static_value:
+  media_value:
 
 services:
   db:
