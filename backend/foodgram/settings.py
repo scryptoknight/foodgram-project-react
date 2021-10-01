@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'django-insecure-=@tkvm)y=((=nd6m32z3zj&@qz#r7!_7cu=1hv%p$s03rty!-1'
 PAGE_SIZE = 6
 DEBUG = True
 ALLOWED_HOSTS = ['178.154.226.189', '127.0.0.1', 'backend']
