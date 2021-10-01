@@ -22,8 +22,8 @@ class User(AbstractUser):
     email = models.EmailField(
         verbose_name='email', unique=True, null=True
     )
-    REQUIRED_FIELDS = ['email', 'first_name', 'last_name']
-    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
+    USERNAME_FIELD = 'email'
 
     objects = UserManager()
     ext_objects = CustomUserManager()
