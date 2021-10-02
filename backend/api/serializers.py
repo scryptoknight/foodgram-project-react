@@ -127,14 +127,21 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
                 }
             )
         ingredients = self.initial_data.get('ingredients')
-        if len(set(ingredients)) != len(ingredients):
-            raise serializers.ValidationError(
-                'Ингридиенты не должны повторятся'
-            )
-        if not ingredients:
-            raise serializers.ValidationError(
-                'Список ингредиентов не получен'
-            )
+        ingredients_set = set()
+        for ingredient in ingredients:
+            if int(ingredient.get('amount')) <= 0:
+                raise serializers.ValidationError(
+                    ('Убедитесь, что значение количества '
+                     'ингредиента больше 0')
+                )
+            id = ingredient.get('id')
+            if id in ingredients_set:
+                raise serializers.ValidationError(
+                    'Ингредиент в рецепте не должен повторяться.'
+                )
+            ingredients_set.add(id)
+        attrs['ingredients'] = ingredients
+
         return attrs
 
     def create_update_method(self, validated_data, recipe=None):
