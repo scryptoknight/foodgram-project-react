@@ -9,7 +9,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv('SECRET_KEY')
 PAGE_SIZE = 6
 DEBUG = True
-ALLOWED_HOSTS = ['178.154.226.189', '127.0.0.1', 'backend']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -133,5 +133,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
