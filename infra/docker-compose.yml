@@ -36,7 +36,7 @@ services:
       - ./.env
 
   back:
-    image: sonoffjord/foodgram_project
+    image: sonoffjord/foodgram_project:latest
     restart: always
     volumes:
       - static_value:/code/static
