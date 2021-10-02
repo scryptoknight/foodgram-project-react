@@ -129,13 +129,11 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
         ingredients = self.initial_data.get('ingredients')
         if len(set(ingredients)) != len(ingredients):
             raise serializers.ValidationError(
-                {'ingredients':
-                    'Ингридиенты не должны повторятся'}
+                'Ингридиенты не должны повторятся'
             )
         if not ingredients:
             raise serializers.ValidationError(
-                {'ingredients':
-                    'Список ингредиентов не получен'}
+                'Список ингредиентов не получен'
             )
         return attrs
 
