@@ -66,7 +66,6 @@ class IngredientWriteSerializer(serializers.ModelSerializer):
                     ('Убедитесь, что значение количества '
                      'ингредиента больше 0')
                 )
-        attrs['ingredients'] = ingredients
         return attrs
 
 
