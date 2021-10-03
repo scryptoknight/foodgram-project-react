@@ -126,17 +126,13 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
                 {'ingredients':
                     'Список ингредиентов не получен'}
             )
-        if not Ingredient.objects.filter(pk=attrs['id']).exists:
-            raise serializers.ValidationError(
-                {
-                    'ingredients': f'ингредиент с id {attrs["id"]} не найден'
-                },
-            )
-        if int(attrs['amount']) < MIN_COOKING_TIME or int(attrs['amount']) > MAX_COOKING_TIME:
-            raise serializers.ValidationError(
-                f'Количество ингредиента не может быть меньше {MIN_COOKING_TIME} '
-                f'и больше {MAX_COOKING_TIME}'
-            )
+        for ingredient_item in ingredients:
+
+            if int(ingredient_item['amount']) <= 1:
+                raise serializers.ValidationError({
+                    'ingredients': ('Убедитесь, что значение количества '
+                                    'ингредиента больше или равно 1.')
+                })
         return attrs
 
     def create_update_method(self, validated_data, recipe=None):

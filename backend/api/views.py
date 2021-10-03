@@ -116,6 +116,7 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class ShoppingViewSet(CommonViewSet):
+    page_size_query_param = PageNumberPaginatorModified
     serializer_class = ShoppingSerializer
     obj = Recipe
     del_obj = ShoppingList
