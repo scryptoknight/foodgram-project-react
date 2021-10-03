@@ -60,12 +60,9 @@ class IngredientWriteSerializer(serializers.ModelSerializer):
                 },
             )
         if int(attrs['amount']) < MIN_COOKING_TIME or int(attrs['amount']) > MAX_COOKING_TIME:
-            raise serializers.ValidationError(
-                {
-                    'ingredients':
-                        f'Количество ингредиента не может быть меньше {MIN_COOKING_TIME} '
-                        f'и больше {MAX_COOKING_TIME}'
-                }
+            raise serializers.ValidationError(                
+                    (f'Количество ингредиента не может быть меньше {MIN_COOKING_TIME} '
+                     f'и больше {MAX_COOKING_TIME}')
             )
         return attrs
 
@@ -120,11 +117,8 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
         if (cooking_time is None or
                 int(cooking_time) < MIN_COOKING_TIME or int(cooking_time) > MAX_COOKING_TIME):
             raise serializers.ValidationError(
-                {
-                    'cooking_time':
-                        f'Время приготовления не может быть меньше {MIN_COOKING_TIME} '
-                        f'и больше {MAX_COOKING_TIME}'
-                }
+                    (f'Время приготовления не может быть меньше {MIN_COOKING_TIME} '
+                    f'и больше {MAX_COOKING_TIME}')
             )
         ingredients = self.initial_data.get('ingredients')
         ingredients_set = set()

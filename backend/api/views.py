@@ -117,6 +117,7 @@ class ShoppingViewSet(CommonViewSet):
     serializer_class = ShoppingSerializer
     obj = Recipe
     del_obj = ShoppingList
+    pagination_class = None
 
 
 class ShoppingCartDL(APIView):
