@@ -20,7 +20,7 @@ User = get_user_model()
 class FollowReadViewSet(ReadOnlyModelViewSet):
     serializer_class = FollowReadSerializer
     permission_classes = [IsAuthenticated]
-    pagination_class = PageNumberPaginatorModified
+    pagination_class = None
 
     def get_queryset(self):
         qs = User.ext_objects.follow_recipes(user=self.request.user).all()

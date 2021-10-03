@@ -71,7 +71,6 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class CommonViewSet(APIView):
-    page_size_query_param = None
     permission_classes = [IsOwnerOrReadOnly]
     serializer_class = None
     obj = Recipe
