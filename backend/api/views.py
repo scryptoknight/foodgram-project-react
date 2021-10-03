@@ -116,6 +116,7 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class ShoppingViewSet(APIView):
+    pagination_class = None
     permission_classes = [IsAuthenticated, ]
 
     def get(self, request, recipe_id):
@@ -144,6 +145,7 @@ class ShoppingViewSet(APIView):
 
 class ShoppingCartDL(APIView):
     pagination_class = None
+    page_size_query_param = None
     permission_classes = [IsAuthenticated]
 
     @method_decorator(cache_page(60 * 60))
