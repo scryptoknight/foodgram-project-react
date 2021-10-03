@@ -115,7 +115,7 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = None
 
 
-class ShoppingView(APIView):
+class ShoppingViewSet(APIView):
     permission_classes = [IsAuthenticated, ]
 
     def get(self, request, recipe_id):
