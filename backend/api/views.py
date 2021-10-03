@@ -15,11 +15,9 @@ from api.permissions import IsOwnerOrReadOnly
 from api.serializers import (FavorSerializer, IngredientSerializer,
                              RecipeReadSerializer, RecipeWriteSerializer,
                              ShoppingSerializer, TagSerializer)
-from api.paginators import PageNumberPaginatorModified
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
-    page_size_query_param = PageNumberPaginatorModified
     filter_class = RecipeFilter
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Recipe.objects.prefetch_related(
@@ -119,7 +117,6 @@ class ShoppingViewSet(CommonViewSet):
     serializer_class = ShoppingSerializer
     obj = Recipe
     del_obj = ShoppingList
-    pagination_class = None
 
 
 class ShoppingCartDL(APIView):

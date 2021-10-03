@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
+from api.paginators import PageNumberPaginatorModified
 from api.permissions import IsOwnerOrReadOnly
 from users.models import Follow
 from users.serializers import (FollowReadSerializer, FollowSerializer,
@@ -19,7 +20,7 @@ User = get_user_model()
 class FollowReadViewSet(ReadOnlyModelViewSet):
     serializer_class = FollowReadSerializer
     permission_classes = [IsAuthenticated]
-    pagination_class = None
+    pagination_class = PageNumberPaginatorModified
 
     def get_queryset(self):
         qs = User.ext_objects.follow_recipes(user=self.request.user).all()
