@@ -71,6 +71,8 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class CommonViewSet(APIView):
+    page_size_query_param = None
+    pagination_class = None
     permission_classes = [IsOwnerOrReadOnly]
     serializer_class = None
     obj = Recipe
@@ -119,8 +121,6 @@ class ShoppingViewSet(CommonViewSet):
     serializer_class = ShoppingSerializer
     obj = Recipe
     del_obj = ShoppingList
-    pagination_class = None
-    page_size_query_param = None
 
 
 class ShoppingCartDL(APIView):
