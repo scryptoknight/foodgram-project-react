@@ -15,7 +15,7 @@ from api.permissions import IsOwnerOrReadOnly
 from api.serializers import (FavorSerializer, IngredientSerializer,
                              RecipeReadSerializer, RecipeWriteSerializer,
                              ShoppingSerializer, TagSerializer)
-from api.paginators import PageNumberPaginatorModified, PageNumberPaginatorModified2
+from api.paginators import PageNumberPaginatorModified
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
@@ -71,7 +71,7 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class CommonViewSet(APIView):
-    pagination_class = PageNumberPaginatorModified2
+    pagination_class = None
     permission_classes = [IsOwnerOrReadOnly]
     serializer_class = None
     obj = Recipe
@@ -120,6 +120,7 @@ class ShoppingViewSet(CommonViewSet):
     serializer_class = ShoppingSerializer
     obj = Recipe
     del_obj = ShoppingList
+    pagination_class = None
 
 
 class ShoppingCartDL(APIView):
