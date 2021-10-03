@@ -151,10 +151,9 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
             )
         for ingredient in ingredients:
             if int(ingredient['amount']) <= 1:
-                raise serializers.ValidationError({
-                    'ingredients': ('Убедитесь, что значение количества '
-                                    'ингредиента больше или равно 1.')
-                })
+                raise serializers.ValidationError(('Убедитесь, что значение количества '
+                                                   'ингредиента больше или равно 1.')
+                                                  )
         RecipeComponent.objects.bulk_create(ingredient_instances)
         recipe.tags.set(tags)
         return recipe
