@@ -19,7 +19,7 @@ from api.paginators import PageNumberPaginatorModified
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
-    page_size_query_param = PageNumberPaginatorModified
+    pagination_class = None
     filter_class = RecipeFilter
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Recipe.objects.prefetch_related(
@@ -71,7 +71,6 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class CommonViewSet(APIView):
-    pagination_class = PageNumberPaginatorModified
     permission_classes = [IsOwnerOrReadOnly]
     serializer_class = None
     obj = Recipe
