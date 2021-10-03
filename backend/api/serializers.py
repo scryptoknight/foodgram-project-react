@@ -129,6 +129,12 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
                 {'ingredients':
                     'Список ингредиентов не получен'}
             )
+        ingredients = attrs['ingredients']
+        for ingredient in ingredients:
+            if ingredient['amount'] <= 0:
+                raise serializers.ValidationError(
+                    'Увеличьте количество ингридиентов;'
+                )
         return attrs
 
     def create_update_method(self, validated_data, recipe=None):
