@@ -71,7 +71,7 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class CommonViewSet(APIView):
-    page_size = PageNumberPaginatorModified2
+    pagination_class = PageNumberPaginatorModified2
     permission_classes = [IsOwnerOrReadOnly]
     serializer_class = None
     obj = Recipe
@@ -117,15 +117,12 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class ShoppingViewSet(CommonViewSet):
-    page_size = PageNumberPaginatorModified2
     serializer_class = ShoppingSerializer
     obj = Recipe
     del_obj = ShoppingList
 
 
 class ShoppingCartDL(APIView):
-    page_size = PageNumberPaginatorModified2
-    pagination_class = None
     permission_classes = [IsAuthenticated]
 
     @method_decorator(cache_page(60 * 60))
