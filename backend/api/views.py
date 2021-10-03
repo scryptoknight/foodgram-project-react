@@ -15,7 +15,6 @@ from api.permissions import IsOwnerOrReadOnly
 from api.serializers import (FavorSerializer, IngredientSerializer,
                              RecipeReadSerializer, RecipeWriteSerializer,
                              ShoppingSerializer, TagSerializer)
-from api.paginators import PageNumberPaginatorModified
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
