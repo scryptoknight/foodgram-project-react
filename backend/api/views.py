@@ -119,11 +119,11 @@ class ShoppingViewSet(CommonViewSet):
     serializer_class = ShoppingSerializer
     obj = Recipe
     del_obj = ShoppingList
-    page_size_query_param = None
+    pagination_class = None
 
 
 class ShoppingCartDL(APIView):
-    page_size_query_param = None
+    pagination_class = None
     permission_classes = [IsAuthenticated]
 
     @method_decorator(cache_page(60 * 60))
