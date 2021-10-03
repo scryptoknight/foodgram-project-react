@@ -8,7 +8,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-#from api.paginators import PageNumberPaginatorModified
 from api.permissions import IsOwnerOrReadOnly
 from users.models import Follow
 from users.serializers import (FollowReadSerializer, FollowSerializer,
