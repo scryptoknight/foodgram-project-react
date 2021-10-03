@@ -71,7 +71,7 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class CommonViewSet(APIView):
-    pagination_class = None
+    pagination_class = PageNumberPaginatorModified
     permission_classes = [IsOwnerOrReadOnly]
     serializer_class = None
     obj = Recipe
