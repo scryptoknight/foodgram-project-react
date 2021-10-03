@@ -125,7 +125,8 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
         for ingredient in ingredients:
             if ingredient['amount'] <= 0:
                 raise serializers.ValidationError(
-                    'Увеличьте количество ингридиентов;'
+                    {'ingredients':
+                     'Увеличьте количество ингридиентов'}
                 )
         return attrs
 

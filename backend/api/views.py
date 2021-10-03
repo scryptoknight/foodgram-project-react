@@ -115,11 +115,31 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = None
 
 
-class ShoppingViewSet(CommonViewSet):
-    serializer_class = ShoppingSerializer
-    obj = Recipe
-    del_obj = ShoppingList
-    pagination_class = None
+class ShoppingView(APIView):
+    permission_classes = [IsAuthenticated, ]
+
+    def get(self, request, recipe_id):
+        user = request.user
+        data = {
+            'recipe': recipe_id,
+            'user': user.id
+        }
+        context = {'request': request}
+        serializer = ShoppingSerializer(data=data,
+                                            context=context)
+        if not serializer.is_valid():
+            return Response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def delete(self, request, recipe_id):
+        user = request.user
+        recipe = get_object_or_404(Recipe, id=recipe_id)
+        ShoppingList.objects.filter(user=user, recipe=recipe).delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ShoppingCartDL(APIView):
