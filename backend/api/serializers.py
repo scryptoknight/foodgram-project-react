@@ -126,13 +126,6 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
                 {'ingredients':
                     'Список ингредиентов не получен'}
             )
-        for ingredient_item in ingredients:
-
-            if int(ingredient_item['amount']) <= 1:
-                raise serializers.ValidationError({
-                    'ingredients': ('Убедитесь, что значение количества '
-                                    'ингредиента больше или равно 1.')
-                })
         return attrs
 
     def create_update_method(self, validated_data, recipe=None):
@@ -156,6 +149,12 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
             ingredient_instances.append(
                 RecipeComponent(ingredient=ingr_id, recipe=recipe, amount=amt)
             )
+        for ingredient in ingredients:
+            if int(ingredient['amount']) <= 1:
+                raise serializers.ValidationError({
+                    'ingredients': ('Убедитесь, что значение количества '
+                                    'ингредиента больше или равно 1.')
+                })
         RecipeComponent.objects.bulk_create(ingredient_instances)
         recipe.tags.set(tags)
         return recipe

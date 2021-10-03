@@ -116,13 +116,14 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class ShoppingViewSet(CommonViewSet):
-    page_size_query_param = PageNumberPaginatorModified
     serializer_class = ShoppingSerializer
     obj = Recipe
     del_obj = ShoppingList
+    page_size_query_param = None
 
 
 class ShoppingCartDL(APIView):
+    page_size_query_param = None
     permission_classes = [IsAuthenticated]
 
     @method_decorator(cache_page(60 * 60))
