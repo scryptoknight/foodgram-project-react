@@ -15,9 +15,10 @@ from api.permissions import IsOwnerOrReadOnly
 from api.serializers import (FavorSerializer, IngredientSerializer,
                              RecipeReadSerializer, RecipeWriteSerializer,
                              ShoppingSerializer, TagSerializer)
-
+from .paginators import PageLimitSetPagination
 
 class RecipeViewSet(viewsets.ModelViewSet):
+    pagination_class = PageLimitSetPagination
     filter_class = RecipeFilter
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Recipe.objects.prefetch_related(
