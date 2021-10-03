@@ -121,21 +121,11 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
                 f'и больше {MAX_COOKING_TIME}'
             )
         ingredients = self.initial_data.get('ingredients')
-        ingredients_set = set()
-        for ingredient in ingredients:
-            if int(ingredient.get('amount')) <= 0:
-                raise serializers.ValidationError(
-                    'Убедитесь, что значение количества '
-                    'ингредиента больше 0'
-                )
-            id = ingredient.get('id')
-            if id in ingredients_set:
-                raise serializers.ValidationError(
-                    'Ингредиент в рецепте не должен повторяться.'
-                )
-            ingredients_set.add(id)
-        attrs['ingredients'] = ingredients
-
+        if not ingredients:
+            raise serializers.ValidationError(
+                {'ingredients':
+                    'Список ингредиентов не получен'}
+            )
         return attrs
 
     def create_update_method(self, validated_data, recipe=None):
