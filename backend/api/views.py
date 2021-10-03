@@ -15,7 +15,8 @@ from api.permissions import IsOwnerOrReadOnly
 from api.serializers import (FavorSerializer, IngredientSerializer,
                              RecipeReadSerializer, RecipeWriteSerializer,
                              ShoppingSerializer, TagSerializer)
-from .paginators import PageLimitSetPagination
+from api.paginators import PageLimitSetPagination
+
 
 class RecipeViewSet(viewsets.ModelViewSet):
     pagination_class = PageLimitSetPagination
