@@ -59,13 +59,6 @@ class IngredientWriteSerializer(serializers.ModelSerializer):
                     'ingredients': f'ингредиент с id {attrs["id"]} не найден'
                 },
             )
-        ingredients = self.initial_data.get('ingredients')
-        for ingredient in ingredients:
-            if int(ingredient.get('amount')) <= 0:
-                raise serializers.ValidationError(
-                    ('Убедитесь, что значение количества '
-                     'ингредиента больше 0')
-                )
         return attrs
 
 
