@@ -61,8 +61,11 @@ class IngredientWriteSerializer(serializers.ModelSerializer):
             )
         if int(attrs['amount']) < MIN_COOKING_TIME or int(attrs['amount']) > MAX_COOKING_TIME:
             raise serializers.ValidationError(
-                f'Количество ингредиента не может быть меньше {MIN_COOKING_TIME} '
-                f'и больше {MAX_COOKING_TIME}'
+                {
+                    'ingredients':
+                        'Количество ингредиента не может быть меньше 1 '
+                        'и больше 32766'
+                }
             )
         return attrs
 
